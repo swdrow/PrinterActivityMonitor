@@ -2,6 +2,7 @@ import express from 'express';
 import { env, isDev } from './config/index.js';
 import { getDatabase } from './config/database.js';
 import authRoutes from './routes/auth.js';
+import discoveryRoutes from './routes/discovery.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/discovery', discoveryRoutes);
 
 // Initialize database
 const db = getDatabase();
