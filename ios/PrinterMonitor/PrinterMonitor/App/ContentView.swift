@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    let apiClient: APIClient
+    let settings: SettingsStorage
+
     var body: some View {
         TabView {
-            DashboardView()
+            DashboardView(apiClient: apiClient, settings: settings)
                 .tabItem {
                     Label("Dashboard", systemImage: "gauge")
                 }
@@ -18,9 +21,10 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gear")
                 }
         }
+        .tint(Theme.Colors.accent)
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(apiClient: APIClient(), settings: SettingsStorage())
 }
