@@ -25,10 +25,8 @@ struct RainbowShimmer: View {
     }
 
     private var rainbowColors: [Color] {
-        [
-            .blue, .cyan, .green, .yellow,
-            .orange, .pink, .purple, .blue
-        ].map { $0.opacity(opacity) }
+        [Color.blue, .cyan, .green, .yellow,
+         .orange, .pink, .purple, .blue].map { $0.opacity(opacity) }
     }
 }
 
@@ -64,10 +62,8 @@ struct RainbowBorder: ViewModifier {
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .strokeBorder(
                     AngularGradient(
-                        colors: [
-                            .blue, .cyan, .green, .yellow,
-                            .orange, .pink, .purple, .blue
-                        ].map { $0.opacity(opacity) },
+                        colors: ([Color.blue, .cyan, .green, .yellow,
+                                  .orange, .pink, .purple, .blue] as [Color]).map { $0.opacity(opacity) },
                         center: .center,
                         startAngle: .degrees(rotation),
                         endAngle: .degrees(rotation + 360)

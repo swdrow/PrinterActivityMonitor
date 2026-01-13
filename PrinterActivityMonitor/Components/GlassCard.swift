@@ -90,10 +90,8 @@ struct GlassCardWithShimmer<Content: View>: View {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .strokeBorder(
                         AngularGradient(
-                            colors: [
-                                .blue, .purple, .pink, .orange,
-                                .yellow, .green, .cyan, .blue
-                            ].map { $0.opacity(0.5) },
+                            colors: ([Color.blue, .purple, .pink, .orange,
+                                      .yellow, .green, .cyan, .blue] as [Color]).map { $0.opacity(0.5) },
                             center: .center,
                             startAngle: .degrees(animationPhase),
                             endAngle: .degrees(animationPhase + 360)

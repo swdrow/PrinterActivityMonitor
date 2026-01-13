@@ -52,7 +52,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B1200000000000AA /* PrinterActivityMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrinterActivityMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1100001000000AA /* PrinterActivityMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterActivityMonitorApp.swift; sourceTree = "<group>"; };
 		B1100002000000AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B1100003000000AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,10 +66,11 @@
 		B110000C000000AA /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		B110000D000000AA /* PrinterActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterActivityAttributes.swift; sourceTree = "<group>"; };
 		B110000E000000AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2200000000000BB /* PrinterActivityMonitorWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrinterActivityMonitorWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1200000000000AA /* PrinterActivityMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrinterActivityMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2100001000000BB /* PrinterActivityMonitorWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterActivityMonitorWidgetBundle.swift; sourceTree = "<group>"; };
 		B2100002000000BB /* PrinterLiveActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterLiveActivityView.swift; sourceTree = "<group>"; };
 		B2100003000000BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2200000000000BB /* PrinterActivityMonitorWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PrinterActivityMonitorWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +91,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B7000001000000AA /* Root */ = {
+		B7000001000000AA = {
 			isa = PBXGroup;
 			children = (
 				B7000002000000AA /* PrinterActivityMonitor */,
