@@ -1,8 +1,9 @@
 import Foundation
 
 /// Manages persistent storage of app settings
+@MainActor
 @Observable
-final class SettingsStorage {
+final class SettingsStorage: Sendable {
     // MARK: - Keys
 
     private enum Keys {

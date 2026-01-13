@@ -1,6 +1,7 @@
 import Foundation
 
 /// View model for printer state and polling
+@MainActor
 @Observable
 final class PrinterViewModel {
     // MARK: - Published State
@@ -28,10 +29,10 @@ final class PrinterViewModel {
     func startPolling() {
         guard pollingTask == nil else { return }
 
-        pollingTask = Task { [weak self] in
+        pollingTask = Task {
             while !Task.isCancelled {
-                await self?.fetchState()
-                try? await Task.sleep(nanoseconds: 5_000_000_000) // 5 second interval
+                await fetchState()
+                try? await Task.sleep(for: .seconds(5))
             }
         }
     }
@@ -47,7 +48,6 @@ final class PrinterViewModel {
 
     // MARK: - Private Methods
 
-    @MainActor
     private func fetchState() async {
         guard let printerPrefix = settings.selectedPrinterPrefix else {
             error = "No printer selected"
@@ -58,7 +58,7 @@ final class PrinterViewModel {
             isLoading = printerState == nil // Only show loading on first fetch
             let response = try await apiClient.getPrinterState(prefix: printerPrefix)
 
-            self.printerState = PrinterState(
+            printerState = PrinterState(
                 progress: response.progress,
                 currentLayer: response.currentLayer,
                 totalLayers: response.totalLayers,
@@ -72,17 +72,17 @@ final class PrinterViewModel {
                 printerModel: detectModel(from: printerPrefix),
                 isOnline: response.isOnline
             )
-            self.isConnected = true
+            isConnected = true
             self.error = nil
-            self.isLoading = false
+            isLoading = false
         } catch {
             self.error = error.localizedDescription
-            self.isConnected = false
-            self.isLoading = false
+            isConnected = false
+            isLoading = false
         }
     }
 
-    private func detectModel(from prefix: String) -> PrinterModel {
+    private nonisolated func detectModel(from prefix: String) -> PrinterModel {
         let lowercased = prefix.lowercased()
         if lowercased.contains("x1c") { return .x1Carbon }
         if lowercased.contains("x1") { return .x1 }

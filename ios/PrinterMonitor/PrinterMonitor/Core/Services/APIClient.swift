@@ -1,8 +1,9 @@
 import Foundation
 
 /// API client for communicating with the Printer Monitor server
+@MainActor
 @Observable
-final class APIClient {
+final class APIClient: Sendable {
     // MARK: - Properties
 
     private(set) var isConnected = false
