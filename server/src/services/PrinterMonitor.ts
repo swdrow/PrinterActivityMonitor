@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { HomeAssistantService, StateChangeEvent } from './HomeAssistant.js';
 import type { HAEntityState } from '../types/homeassistant.js';
+import { notificationTrigger } from './NotificationTrigger.js';
 
 export interface PrinterStateCache {
   entityPrefix: string;
@@ -149,7 +150,16 @@ export class PrinterMonitor extends EventEmitter {
 
     switch (suffix) {
       case '_print_progress':
+        const oldProgress = cache.progress;
         cache.progress = this.parseNumber(value, cache.progress);
+        // Check for milestone notification
+        if (cache.progress > oldProgress) {
+          notificationTrigger.handleProgressChange(
+            prefix,
+            cache.progress,
+            cache.subtaskName ?? undefined
+          );
+        }
         break;
       case '_current_layer':
         cache.currentLayer = this.parseNumber(value, cache.currentLayer);
@@ -165,6 +175,13 @@ export class PrinterMonitor extends EventEmitter {
         cache.status = value;
         if (oldStatus !== value) {
           this.emit('status_changed', { prefix, oldStatus, newStatus: value });
+          // Trigger notification
+          notificationTrigger.handleStatusChange(
+            prefix,
+            oldStatus,
+            value,
+            cache.subtaskName ?? undefined
+          );
         }
         break;
       case '_nozzle_temperature':
