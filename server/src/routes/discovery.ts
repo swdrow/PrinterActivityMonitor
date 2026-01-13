@@ -31,9 +31,10 @@ router.post('/scan', async (req, res) => {
     // Fetch all entities
     const entities = await ha.getStates();
 
-    // Discover printers and AMS units
+    // Discover printers first, then AMS (passing printer prefixes for better association)
     const printers = EntityDiscoveryService.discoverPrinters(entities);
-    const amsUnits = EntityDiscoveryService.discoverAMS(entities);
+    const printerPrefixes = printers.map(p => p.entityPrefix);
+    const amsUnits = EntityDiscoveryService.discoverAMS(entities, printerPrefixes);
 
     // Disconnect after discovery
     ha.disconnect();

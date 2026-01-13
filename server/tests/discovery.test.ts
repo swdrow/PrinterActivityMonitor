@@ -61,11 +61,12 @@ describe('EntityDiscoveryService', () => {
 
   describe('discoverAMS', () => {
     it('discovers AMS units from tray entities', () => {
-      const amsUnits = EntityDiscoveryService.discoverAMS(mockEntities);
+      const amsUnits = EntityDiscoveryService.discoverAMS(mockEntities, ['h2s']);
 
       expect(amsUnits).toHaveLength(1);
       expect(amsUnits[0].entityPrefix).toBe('h2s_ams');
       expect(amsUnits[0].trayCount).toBe(4);
+      expect(amsUnits[0].associatedPrinter).toBe('h2s');
     });
 
     it('returns empty array for no AMS entities', () => {
@@ -75,6 +76,24 @@ describe('EntityDiscoveryService', () => {
 
       const amsUnits = EntityDiscoveryService.discoverAMS(noAmsEntities);
       expect(amsUnits).toHaveLength(0);
+    });
+
+    it('correctly associates AMS with printer using known prefixes', () => {
+      // Test case: ams_2_pro should associate with h2s when h2s is a known prefix
+      const amsEntities: HAEntityState[] = [
+        { entity_id: 'sensor.ams_2_pro_tray_1', state: 'PLA', attributes: {}, last_changed: '', last_updated: '' },
+        { entity_id: 'sensor.ams_2_pro_tray_2', state: 'PETG', attributes: {}, last_changed: '', last_updated: '' },
+        { entity_id: 'sensor.ams_2_pro_tray_3', state: 'empty', attributes: {}, last_changed: '', last_updated: '' },
+        { entity_id: 'sensor.ams_2_pro_tray_4', state: 'ABS', attributes: {}, last_changed: '', last_updated: '' },
+      ];
+
+      // Without known prefixes, fallback logic applies
+      const amsWithoutPrefixes = EntityDiscoveryService.discoverAMS(amsEntities);
+      expect(amsWithoutPrefixes[0].associatedPrinter).toBe(null); // 'ams_2_pro' with 'ams', 'pro', and numbers removed = nothing
+
+      // With h2s as known prefix, but it's not in 'ams_2_pro', so still null
+      const amsWithH2s = EntityDiscoveryService.discoverAMS(amsEntities, ['h2s']);
+      expect(amsWithH2s[0].associatedPrinter).toBe(null);
     });
   });
 });

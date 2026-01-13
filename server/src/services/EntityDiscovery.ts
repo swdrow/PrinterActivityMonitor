@@ -91,8 +91,13 @@ export class EntityDiscoveryService {
 
   /**
    * Discover AMS units from Home Assistant entities
+   * @param entities - All HA entities
+   * @param knownPrinterPrefixes - Prefixes of discovered printers for better association
    */
-  static discoverAMS(entities: HAEntityState[]): DiscoveredAMS[] {
+  static discoverAMS(
+    entities: HAEntityState[],
+    knownPrinterPrefixes: string[] = []
+  ): DiscoveredAMS[] {
     const amsMap = new Map<string, Set<number>>();
 
     // Find AMS tray entities (pattern: sensor.{prefix}_tray_{1-4})
@@ -119,7 +124,7 @@ export class EntityDiscoveryService {
         entityPrefix: prefix,
         displayName: this.formatAMSName(prefix),
         trayCount: trays.size,
-        associatedPrinter: this.findAssociatedPrinter(prefix),
+        associatedPrinter: this.findAssociatedPrinter(prefix, knownPrinterPrefixes),
       });
     }
 
@@ -171,15 +176,26 @@ export class EntityDiscoveryService {
 
   /**
    * Try to find associated printer for an AMS unit
+   * @param amsPrefix - The AMS entity prefix
+   * @param knownPrinterPrefixes - Known printer prefixes for smarter matching
    */
-  private static findAssociatedPrinter(amsPrefix: string): string | null {
-    // AMS prefixes often share a base with the printer
-    // e.g., printer: h2s, ams: h2s_ams or h2s_ams_2
-    const parts = amsPrefix.split('_');
+  private static findAssociatedPrinter(
+    amsPrefix: string,
+    knownPrinterPrefixes: string[] = []
+  ): string | null {
+    // First try: check if any known printer prefix is contained in the AMS prefix
+    for (const printerPrefix of knownPrinterPrefixes) {
+      if (amsPrefix.toLowerCase().includes(printerPrefix.toLowerCase())) {
+        return printerPrefix;
+      }
+    }
 
-    // Remove 'ams' and any numbers to get potential printer prefix
+    // Fallback: original logic - remove 'ams', 'pro', and numbers
+    const parts = amsPrefix.split('_');
     const filtered = parts.filter(p =>
-      p.toLowerCase() !== 'ams' && !/^\d+$/.test(p)
+      p.toLowerCase() !== 'ams' &&
+      p.toLowerCase() !== 'pro' &&
+      !/^\d+$/.test(p)
     );
 
     return filtered.length > 0 ? filtered.join('_') : null;
