@@ -1,11 +1,15 @@
 import express from 'express';
 import { env, isDev } from './config/index.js';
 import { getDatabase } from './config/database.js';
+import authRoutes from './routes/auth.js';
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Initialize database
 const db = getDatabase();
