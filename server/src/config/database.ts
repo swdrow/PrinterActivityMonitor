@@ -1,79 +1,112 @@
-import Database from 'better-sqlite3';
-import { env } from './index.js';
-import { mkdirSync, existsSync } from 'fs';
+import { mkdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
+import { env } from './index.js';
 
-let db: Database.Database | null = null;
+// Simple JSON file-based store for Phase 1
+// TODO: Replace with SQLite or PostgreSQL for production
 
-export function getDatabase(): Database.Database {
+interface Database {
+  devices: Device[];
+  printers: Printer[];
+  printJobs: PrintJob[];
+  notificationSettings: NotificationSettings[];
+}
+
+interface Device {
+  id: string;
+  apnsToken: string | null;
+  activityToken: string | null;
+  haUrl: string;
+  haToken: string;
+  entityPrefix: string | null;
+  createdAt: string;
+  lastSeen: string;
+}
+
+interface Printer {
+  id: string;
+  deviceId: string;
+  entityPrefix: string;
+  displayName: string | null;
+  model: string | null;
+  isPrimary: boolean;
+  discoveredAt: string;
+}
+
+interface PrintJob {
+  id: string;
+  deviceId: string;
+  printerPrefix: string | null;
+  filename: string;
+  startedAt: string | null;
+  completedAt: string | null;
+  durationSeconds: number | null;
+  status: string | null;
+  finalLayer: number | null;
+  totalLayers: number | null;
+  filamentUsedMm: number | null;
+}
+
+interface NotificationSettings {
+  deviceId: string;
+  onStart: boolean;
+  onComplete: boolean;
+  onFailed: boolean;
+  onPaused: boolean;
+  onMilestone: boolean;
+}
+
+const emptyDatabase: Database = {
+  devices: [],
+  printers: [],
+  printJobs: [],
+  notificationSettings: [],
+};
+
+let db: Database | null = null;
+
+function getDbPath(): string {
+  return env.DATABASE_PATH.replace('.db', '.json');
+}
+
+export function getDatabase(): Database {
   if (db) return db;
 
-  const dbPath = env.DATABASE_PATH;
+  const dbPath = getDbPath();
   const dbDir = dirname(dbPath);
 
   if (!existsSync(dbDir)) {
     mkdirSync(dbDir, { recursive: true });
   }
 
-  db = new Database(dbPath);
-  db.pragma('journal_mode = WAL');
+  if (existsSync(dbPath)) {
+    try {
+      const content = readFileSync(dbPath, 'utf-8');
+      db = JSON.parse(content);
+    } catch {
+      db = { ...emptyDatabase };
+    }
+  } else {
+    db = { ...emptyDatabase };
+    saveDatabase();
+  }
 
-  initializeTables(db);
-
-  return db;
+  return db!;
 }
 
-function initializeTables(db: Database.Database): void {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS devices (
-      id TEXT PRIMARY KEY,
-      apns_token TEXT,
-      activity_token TEXT,
-      ha_url TEXT NOT NULL,
-      ha_token TEXT NOT NULL,
-      entity_prefix TEXT,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      last_seen TEXT DEFAULT CURRENT_TIMESTAMP
-    );
+export function saveDatabase(): void {
+  if (!db) return;
 
-    CREATE TABLE IF NOT EXISTS printers (
-      id TEXT PRIMARY KEY,
-      device_id TEXT REFERENCES devices(id),
-      entity_prefix TEXT NOT NULL,
-      display_name TEXT,
-      model TEXT,
-      is_primary INTEGER DEFAULT 0,
-      discovered_at TEXT DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS print_jobs (
-      id TEXT PRIMARY KEY,
-      device_id TEXT REFERENCES devices(id),
-      printer_prefix TEXT,
-      filename TEXT NOT NULL,
-      started_at TEXT,
-      completed_at TEXT,
-      duration_seconds INTEGER,
-      status TEXT,
-      final_layer INTEGER,
-      total_layers INTEGER,
-      filament_used_mm REAL
-    );
-
-    CREATE TABLE IF NOT EXISTS notification_settings (
-      device_id TEXT PRIMARY KEY REFERENCES devices(id),
-      on_start INTEGER DEFAULT 1,
-      on_complete INTEGER DEFAULT 1,
-      on_failed INTEGER DEFAULT 1,
-      on_paused INTEGER DEFAULT 1,
-      on_milestone INTEGER DEFAULT 1
-    );
-  `);
+  const dbPath = getDbPath();
+  writeFileSync(dbPath, JSON.stringify(db, null, 2), 'utf-8');
 }
 
 export function closeDatabase(): void {
   if (db) {
-    db.close();
+    saveDatabase();
     db = null;
   }
 }
+
+// Export types for use in other modules
+export type { Database, Device, Printer, PrintJob, NotificationSettings };
