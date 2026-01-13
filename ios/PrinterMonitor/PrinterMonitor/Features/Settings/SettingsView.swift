@@ -12,7 +12,7 @@ struct SettingsView: View {
 
                 Section("Notifications") {
                     NavigationLink("Notification Settings") {
-                        Text("Notification Settings")
+                        NotificationSettingsView()
                     }
                 }
 
