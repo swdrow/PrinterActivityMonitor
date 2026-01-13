@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.js';
 import discoveryRoutes from './routes/discovery.js';
 import printerRoutes from './routes/printers.js';
 import monitorRoutes from './routes/monitor.js';
+import devicesRoutes from './routes/devices.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/discovery', discoveryRoutes);
 app.use('/api/printers', printerRoutes);
 app.use('/api/monitor', monitorRoutes);
+app.use('/api/devices', devicesRoutes);
 
 // Initialize database
 const db = getDatabase();

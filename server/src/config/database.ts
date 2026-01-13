@@ -19,8 +19,10 @@ interface Device {
   haUrl: string;
   haToken: string;
   entityPrefix: string | null;
+  printerName: string | null;
   createdAt: string;
   lastSeen: string;
+  notificationsEnabled: boolean;
 }
 
 interface Printer {
