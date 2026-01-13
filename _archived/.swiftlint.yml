@@ -1,0 +1,99 @@
+# SwiftLint Configuration for PrinterActivityMonitor
+
+# Disable Rules
+disabled_rules:
+  - line_length # iOS code often has long method chains and SwiftUI modifiers
+  - trailing_whitespace # Let formatter handle this
+
+# Opt-In Rules
+opt_in_rules:
+  - empty_count # Prefer isEmpty over count == 0
+  - closure_spacing # Enforce spacing in closures
+  - force_unwrapping # Warn on force unwraps
+  - implicit_return # Prefer implicit returns in closures
+  - sorted_imports # Keep imports alphabetically sorted
+  - vertical_whitespace_closing_braces # Consistent brace spacing
+  - vertical_whitespace_opening_braces # Consistent brace spacing
+  - unneeded_parentheses_in_closure_argument # Clean closure syntax
+  - toggle_bool # Prefer toggle() over = !
+  - redundant_type_annotation # Remove obvious type annotations
+  - explicit_init # Prefer Type() over Type.init()
+  - multiline_parameters # Consistent parameter formatting
+  - trailing_closure # Prefer trailing closure syntax
+
+# Excluded Paths
+excluded:
+  - .build
+  - build
+  - Pods
+  - DerivedData
+  - .swiftpm
+  - "**/*.generated.swift"
+  - PrinterActivityMonitor.xcodeproj
+
+# Included Paths (explicit)
+included:
+  - PrinterActivityMonitor
+  - PrinterActivityMonitorWidget
+
+# Rule Configuration
+file_length:
+  warning: 500
+  error: 1000
+  ignore_comment_only_lines: true
+
+type_body_length:
+  warning: 300
+  error: 500
+
+function_body_length:
+  warning: 60
+  error: 100
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+nesting:
+  type_level:
+    warning: 3
+  statement_level:
+    warning: 5
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  max_length:
+    warning: 50
+    error: 60
+  excluded:
+    - id
+    - url
+    - URL
+    - ha
+    - x
+    - y
+    - z
+
+type_name:
+  min_length: 3
+  max_length: 50
+
+large_tuple:
+  warning: 3
+  error: 4
+
+# Force Unwrapping Configuration
+force_unwrapping:
+  severity: warning
+
+# Closure Spacing
+closure_spacing:
+  severity: warning
+
+# Reporter
+reporter: "xcode"
+
+# Swift Version
+swift_version: "5.0"
