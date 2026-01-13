@@ -12,7 +12,11 @@
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "keywords": ["home-assistant", "3d-printer", "bambulab"],
+  "keywords": [
+    "home-assistant",
+    "3d-printer",
+    "bambulab"
+  ],
   "author": "Sam Duncan",
   "license": "MIT",
   "devDependencies": {
@@ -30,6 +34,7 @@
     "vitest": "^1.2.0"
   },
   "dependencies": {
+    "apns2": "^12.2.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "uuid": "^9.0.1",
