@@ -4,6 +4,7 @@ import { getDatabase } from './config/database.js';
 import authRoutes from './routes/auth.js';
 import discoveryRoutes from './routes/discovery.js';
 import printerRoutes from './routes/printers.js';
+import monitorRoutes from './routes/monitor.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/discovery', discoveryRoutes);
 app.use('/api/printers', printerRoutes);
+app.use('/api/monitor', monitorRoutes);
 
 // Initialize database
 const db = getDatabase();
@@ -38,8 +40,11 @@ app.get('/api', (req, res) => {
       'POST /api/auth/validate',
       'POST /api/devices/register',
       'POST /api/discovery/scan',
-      'GET /api/history',
       'GET /api/printers/state',
+      'GET /api/printers/state/:prefix',
+      'POST /api/monitor/start',
+      'POST /api/monitor/stop',
+      'GET /api/monitor/status',
     ],
   });
 });
