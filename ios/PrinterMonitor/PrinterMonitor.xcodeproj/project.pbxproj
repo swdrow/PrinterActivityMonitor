@@ -18,13 +18,16 @@
 		4A0AC320D3DF21E24E3D76FB /* PrinterMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244CD04E6A1066E74F4A27E6 /* PrinterMonitorApp.swift */; };
 		4E1E09A8E945391A180358B5 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85C6879F2CD094651BF705 /* DebugView.swift */; };
 		4EBE8D95F61D8F2ADE04587D /* PrinterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C04889C3366E3E12AB253AB /* PrinterSelectionView.swift */; };
+		5409A55677EA4505986D8291 /* Info 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C91DF4EDA349164BDAF0C40 /* Info 2.plist */; };
 		5CE7305B0E32C6910F7FF3A4 /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7D49C42BAE408F82F2268D /* SettingsStorage.swift */; };
 		66089539A7B39880B1F54373 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4040A36A0EE60C5B65AF1C3D /* DashboardView.swift */; };
 		706742463DF7E058283E5683 /* ProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644BCC5DCF595CF356A04485 /* ProgressRing.swift */; };
+		82C5358A36706B421B76372E /* Info 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 173CAED86C51ABFBA6EB7BE6 /* Info 2.plist */; };
 		90BFB91DFD772B4CAFB59890 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD65E9B1AA9A7D21B784D47D /* Theme.swift */; };
 		A06A85B2E787C801FCE3D1D5 /* PrinterMonitorWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 491C29B9F185FB2C4BF2D7F6 /* PrinterMonitorWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDD8F73E9E5B4A39DD8D7EA0 /* PrinterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68727E44583041E29B42E854 /* PrinterViewModel.swift */; };
 		ECAB803F6A1B4961FD3D84A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B9EFEF6238353FCF6EC2A14 /* Assets.xcassets */; };
+		F07C4B89A092D3C1DBAB878F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA4ACAF0C954071879910C5 /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0FA4ACAF0C954071879910C5 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		173CAED86C51ABFBA6EB7BE6 /* Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info 2.plist"; sourceTree = "<group>"; };
+		1C91DF4EDA349164BDAF0C40 /* Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info 2.plist"; sourceTree = "<group>"; };
 		244CD04E6A1066E74F4A27E6 /* PrinterMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterMonitorApp.swift; sourceTree = "<group>"; };
 		2C85C6879F2CD094651BF705 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		34F6C7E969B15C2E1325ECF8 /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
@@ -88,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				5B9EFEF6238353FCF6EC2A14 /* Assets.xcassets */,
+				173CAED86C51ABFBA6EB7BE6 /* Info 2.plist */,
 				C0666C9292BA710C94936431 /* Info.plist */,
 				837211B897F8D18414D90AFF /* App */,
 				5DADF78FFC0736127B321777 /* Components */,
@@ -161,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8493E30A4DC21011E046008B /* APIClient.swift */,
+				0FA4ACAF0C954071879910C5 /* NotificationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -196,6 +204,7 @@
 		CE089021F6BEE9B823D16B21 /* PrinterMonitorWidget */ = {
 			isa = PBXGroup;
 			children = (
+				1C91DF4EDA349164BDAF0C40 /* Info 2.plist */,
 				9AA896FA2B5F4F7F4A9F5978 /* Info.plist */,
 				A7FF76E04CEC3F8BEC1B073B /* PrinterMonitorWidgetBundle.swift */,
 			);
@@ -239,6 +248,7 @@
 			buildConfigurationList = B025087A530A834C35095708 /* Build configuration list for PBXNativeTarget "PrinterMonitorWidgetExtension" */;
 			buildPhases = (
 				F5DB1A0EB0E4B5627A976EED /* Sources */,
+				6F47EE8DEFFFA4965BE23CD4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -309,11 +319,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6F47EE8DEFFFA4965BE23CD4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5409A55677EA4505986D8291 /* Info 2.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E21DE75721E0C41F3BE6F19E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				ECAB803F6A1B4961FD3D84A7 /* Assets.xcassets in Resources */,
+				82C5358A36706B421B76372E /* Info 2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +349,7 @@
 				66089539A7B39880B1F54373 /* DashboardView.swift in Sources */,
 				4E1E09A8E945391A180358B5 /* DebugView.swift in Sources */,
 				22B2C3E848B589057B29BF84 /* HistoryView.swift in Sources */,
+				F07C4B89A092D3C1DBAB878F /* NotificationManager.swift in Sources */,
 				4A0AC320D3DF21E24E3D76FB /* PrinterMonitorApp.swift in Sources */,
 				4EBE8D95F61D8F2ADE04587D /* PrinterSelectionView.swift in Sources */,
 				476A6968F1730B92650A8CEA /* PrinterState.swift in Sources */,

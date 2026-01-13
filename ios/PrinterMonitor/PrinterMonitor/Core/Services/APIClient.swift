@@ -84,6 +84,35 @@ final class APIClient: Sendable {
         return try JSONDecoder().decode(MonitorStatusResponse.self, from: data)
     }
 
+    // MARK: - Device Registration
+
+    func registerDevice(
+        apnsToken: String,
+        haUrl: String,
+        printerPrefix: String?,
+        printerName: String?
+    ) async throws -> DeviceRegistrationResponse {
+        let body = DeviceRegistrationRequest(
+            apnsToken: apnsToken,
+            haUrl: haUrl,
+            printerPrefix: printerPrefix,
+            printerName: printerName
+        )
+        let data = try await request(endpoint: "/api/devices/register", method: .post, body: body)
+        return try JSONDecoder().decode(DeviceRegistrationResponse.self, from: data)
+    }
+
+    func updateNotificationSettings(
+        deviceId: String,
+        settings: NotificationSettingsUpdate
+    ) async throws {
+        _ = try await request(
+            endpoint: "/api/devices/\(deviceId)/settings",
+            method: .patch,
+            body: settings
+        )
+    }
+
     // MARK: - Private Helpers
 
     private func request<T: Encodable>(
@@ -126,6 +155,7 @@ extension APIClient {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
+        case patch = "PATCH"
         case delete = "DELETE"
     }
 
@@ -235,5 +265,28 @@ extension APIClient {
     struct MonitorStatusResponse: Codable {
         let running: Bool
         let states: [PrinterStateResponse]
+    }
+
+    // Device Registration
+    struct DeviceRegistrationRequest: Codable {
+        let apnsToken: String
+        let haUrl: String
+        let printerPrefix: String?
+        let printerName: String?
+    }
+
+    struct DeviceRegistrationResponse: Codable {
+        let success: Bool
+        let deviceId: String
+        let message: String
+    }
+
+    struct NotificationSettingsUpdate: Codable {
+        var notificationsEnabled: Bool?
+        var onStart: Bool?
+        var onComplete: Bool?
+        var onFailed: Bool?
+        var onPaused: Bool?
+        var onMilestone: Bool?
     }
 }
