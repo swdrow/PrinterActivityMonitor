@@ -52,6 +52,37 @@ final class APIClient {
         return try JSONDecoder().decode(DiscoveryResponse.self, from: data)
     }
 
+    // MARK: - Printer State
+
+    func getPrinterState(prefix: String) async throws -> PrinterStateResponse {
+        let data = try await request(endpoint: "/api/printers/state/\(prefix)", method: .get)
+        let wrapper = try JSONDecoder().decode(PrinterStateWrapper.self, from: data)
+        return wrapper.printer
+    }
+
+    func getAllPrinterStates() async throws -> [PrinterStateResponse] {
+        let data = try await request(endpoint: "/api/printers/state", method: .get)
+        let wrapper = try JSONDecoder().decode(AllPrinterStatesWrapper.self, from: data)
+        return wrapper.printers
+    }
+
+    // MARK: - Monitor Control
+
+    func startMonitor(haURL: String, haToken: String, printerPrefixes: [String]) async throws -> MonitorStartResponse {
+        let body = MonitorStartRequest(haUrl: haURL, haToken: haToken, printerPrefixes: printerPrefixes)
+        let data = try await request(endpoint: "/api/monitor/start", method: .post, body: body)
+        return try JSONDecoder().decode(MonitorStartResponse.self, from: data)
+    }
+
+    func stopMonitor() async throws {
+        _ = try await request(endpoint: "/api/monitor/stop", method: .post)
+    }
+
+    func getMonitorStatus() async throws -> MonitorStatusResponse {
+        let data = try await request(endpoint: "/api/monitor/status", method: .get)
+        return try JSONDecoder().decode(MonitorStatusResponse.self, from: data)
+    }
+
     // MARK: - Private Helpers
 
     private func request<T: Encodable>(
@@ -160,5 +191,48 @@ extension APIClient {
         let displayName: String
         let trayCount: Int
         let associatedPrinter: String?
+    }
+
+    // Printer State
+    struct PrinterStateWrapper: Codable {
+        let success: Bool
+        let printer: PrinterStateResponse
+    }
+
+    struct AllPrinterStatesWrapper: Codable {
+        let success: Bool
+        let printers: [PrinterStateResponse]
+    }
+
+    struct PrinterStateResponse: Codable {
+        let entityPrefix: String
+        let progress: Int
+        let currentLayer: Int
+        let totalLayers: Int
+        let remainingSeconds: Int
+        let status: String
+        let nozzleTemp: Int
+        let bedTemp: Int
+        let subtaskName: String?
+        let speedProfile: String?
+        let isOnline: Bool
+    }
+
+    // Monitor Control
+    struct MonitorStartRequest: Codable {
+        let haUrl: String
+        let haToken: String
+        let printerPrefixes: [String]
+    }
+
+    struct MonitorStartResponse: Codable {
+        let success: Bool
+        let message: String
+        let monitoringPrefixes: [String]
+    }
+
+    struct MonitorStatusResponse: Codable {
+        let running: Bool
+        let states: [PrinterStateResponse]
     }
 }
