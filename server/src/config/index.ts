@@ -11,7 +11,8 @@ const envSchema = z.object({
   APNS_KEY_ID: z.string().optional(),
   APNS_TEAM_ID: z.string().optional(),
   APNS_KEY_PATH: z.string().optional(),
-  APNS_BUNDLE_ID: z.string().optional(),
+  APNS_BUNDLE_ID: z.string().default('com.samduncan.PrinterMonitor'),
+  APNS_PRODUCTION: z.string().default('false'),
 });
 
 const parsed = envSchema.safeParse(process.env);
