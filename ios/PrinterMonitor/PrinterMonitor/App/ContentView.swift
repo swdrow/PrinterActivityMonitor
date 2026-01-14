@@ -21,7 +21,7 @@ struct ContentView: View {
                     Label("History", systemImage: "clock.arrow.circlepath")
                 }
 
-            SettingsView()
+            SettingsView(apiClient: apiClient, settings: settings)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

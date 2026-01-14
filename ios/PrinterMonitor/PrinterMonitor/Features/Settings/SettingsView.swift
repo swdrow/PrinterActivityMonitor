@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let apiClient: APIClient
+    let settings: SettingsStorage
+
     var body: some View {
         NavigationStack {
             List {
@@ -17,19 +20,33 @@ struct SettingsView: View {
                 }
 
                 Section("About") {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text("1.0.0")
-                            .foregroundStyle(.secondary)
+                    LabeledContent("Version", value: Bundle.main.appVersion)
+                    LabeledContent("Build", value: Bundle.main.buildNumber)
+                }
+
+                #if DEBUG
+                Section("Developer") {
+                    NavigationLink("Debug Menu") {
+                        DebugView(apiClient: apiClient, settings: settings)
                     }
                 }
+                #endif
             }
             .navigationTitle("Settings")
         }
     }
 }
 
+extension Bundle {
+    var appVersion: String {
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
+
+    var buildNumber: String {
+        infoDictionary?["CFBundleVersion"] as? String ?? "1"
+    }
+}
+
 #Preview {
-    SettingsView()
+    SettingsView(apiClient: APIClient(), settings: SettingsStorage())
 }

@@ -158,6 +158,44 @@ final class APIClient: Sendable {
         return decoder
     }
 
+    // MARK: - Debug
+
+    func simulatePrintStart(printerPrefix: String, filename: String = "Test Print.gcode") async throws {
+        struct Request: Codable {
+            let printerPrefix: String
+            let filename: String
+        }
+        _ = try await request(
+            endpoint: "/api/debug/simulate/start",
+            method: .post,
+            body: Request(printerPrefix: printerPrefix, filename: filename)
+        )
+    }
+
+    func simulatePrintComplete(printerPrefix: String, status: String = "complete") async throws {
+        struct Request: Codable {
+            let printerPrefix: String
+            let status: String
+        }
+        _ = try await request(
+            endpoint: "/api/debug/simulate/complete",
+            method: .post,
+            body: Request(printerPrefix: printerPrefix, status: status)
+        )
+    }
+
+    func simulateProgress(printerPrefix: String, progress: Int) async throws {
+        struct Request: Codable {
+            let printerPrefix: String
+            let progress: Int
+        }
+        _ = try await request(
+            endpoint: "/api/debug/simulate/progress",
+            method: .post,
+            body: Request(printerPrefix: printerPrefix, progress: progress)
+        )
+    }
+
     // MARK: - Private Helpers
 
     private func request<T: Encodable>(

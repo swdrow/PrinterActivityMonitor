@@ -8,6 +8,7 @@ import monitorRoutes from './routes/monitor.js';
 import devicesRoutes from './routes/devices.js';
 import configRoutes from './routes/config.js';
 import historyRoutes from './routes/history.js';
+import debugRoutes from './routes/debug.js';
 
 const app = express();
 
@@ -22,6 +23,11 @@ app.use('/api/monitor', monitorRoutes);
 app.use('/api/devices', devicesRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/history', historyRoutes);
+
+// Debug routes (only in development)
+if (isDev) {
+  app.use('/api/debug', debugRoutes);
+}
 
 // Initialize database
 const db = getDatabase();
