@@ -126,6 +126,38 @@ final class APIClient: Sendable {
         _ = try await request(endpoint: "/api/devices/activity-token", method: .post, body: body)
     }
 
+    // MARK: - Print History
+
+    func fetchHistory(deviceId: String, limit: Int = 50) async throws -> [PrintJob] {
+        let data = try await request(
+            endpoint: "/api/history?deviceId=\(deviceId)&limit=\(limit)",
+            method: .get
+        )
+        let response = try historyDecoder.decode(HistoryResponse.self, from: data)
+        guard response.success, let jobs = response.data else {
+            throw APIError.serverError(response.error ?? "Unknown error")
+        }
+        return jobs
+    }
+
+    func fetchStats(deviceId: String) async throws -> PrintStats {
+        let data = try await request(
+            endpoint: "/api/history/stats?deviceId=\(deviceId)",
+            method: .get
+        )
+        let response = try JSONDecoder().decode(StatsResponse.self, from: data)
+        guard response.success, let stats = response.data else {
+            throw APIError.serverError(response.error ?? "Unknown error")
+        }
+        return stats
+    }
+
+    private var historyDecoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }
+
     // MARK: - Private Helpers
 
     private func request<T: Encodable>(
@@ -177,6 +209,7 @@ extension APIClient {
         case notConfigured
         case invalidResponse
         case httpError(statusCode: Int)
+        case serverError(String)
 
         var errorDescription: String? {
             switch self {
@@ -184,6 +217,7 @@ extension APIClient {
             case .notConfigured: return "API client not configured"
             case .invalidResponse: return "Invalid response from server"
             case .httpError(let code): return "HTTP error: \(code)"
+            case .serverError(let message): return message
             }
         }
     }
@@ -307,5 +341,18 @@ extension APIClient {
     struct ActivityTokenRequest: Codable {
         let activityToken: String
         let printerPrefix: String
+    }
+
+    // History
+    struct HistoryResponse: Codable {
+        let success: Bool
+        let data: [PrintJob]?
+        let error: String?
+    }
+
+    struct StatsResponse: Codable {
+        let success: Bool
+        let data: PrintStats?
+        let error: String?
     }
 }
