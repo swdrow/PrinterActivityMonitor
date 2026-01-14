@@ -113,6 +113,19 @@ final class APIClient: Sendable {
         )
     }
 
+    // MARK: - Activity Token Registration
+
+    func registerActivityToken(
+        activityToken: String,
+        printerPrefix: String
+    ) async throws {
+        let body = ActivityTokenRequest(
+            activityToken: activityToken,
+            printerPrefix: printerPrefix
+        )
+        _ = try await request(endpoint: "/api/devices/activity-token", method: .post, body: body)
+    }
+
     // MARK: - Private Helpers
 
     private func request<T: Encodable>(
@@ -288,5 +301,11 @@ extension APIClient {
         var onFailed: Bool?
         var onPaused: Bool?
         var onMilestone: Bool?
+    }
+
+    // Activity Token
+    struct ActivityTokenRequest: Codable {
+        let activityToken: String
+        let printerPrefix: String
     }
 }

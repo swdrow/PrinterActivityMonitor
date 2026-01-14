@@ -21,6 +21,9 @@ targets:
       - path: PrinterMonitor
         excludes:
           - "**/.DS_Store"
+      - path: Shared
+        excludes:
+          - "**/.DS_Store"
     settings:
       base:
         INFOPLIST_FILE: PrinterMonitor/Info.plist
@@ -46,6 +49,9 @@ targets:
     platform: iOS
     sources:
       - path: PrinterMonitorWidget
+        excludes:
+          - "**/.DS_Store"
+      - path: Shared
         excludes:
           - "**/.DS_Store"
     settings:
