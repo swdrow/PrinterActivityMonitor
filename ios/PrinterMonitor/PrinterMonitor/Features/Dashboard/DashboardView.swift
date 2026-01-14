@@ -42,6 +42,17 @@ struct DashboardView: View {
                     .refreshable {
                         await viewModel.refresh()
                     }
+                } else if let error = viewModel.error {
+                    ContentUnavailableView {
+                        Label("Connection Error", systemImage: "wifi.exclamationmark")
+                    } description: {
+                        Text(error)
+                    } actions: {
+                        Button("Retry") {
+                            Task { await viewModel.refresh() }
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
                 } else {
                     ContentUnavailableView(
                         "No Printer Connected",
