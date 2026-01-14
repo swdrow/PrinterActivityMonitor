@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatabase, saveDatabase } from '../config/database.js';
 import type { Device, NotificationSettings } from '../config/database.js';
+import { liveActivityService } from '../services/LiveActivityService.js';
 
 const router = Router();
 
@@ -179,6 +180,25 @@ router.get('/by-printer/:prefix', (req, res) => {
   return res.json({
     success: true,
     devices: result,
+  });
+});
+
+// Register activity token for Live Activity updates
+router.post('/activity-token', (req, res) => {
+  const { activityToken, printerPrefix } = req.body;
+
+  if (!activityToken || !printerPrefix) {
+    return res.status(400).json({
+      success: false,
+      error: 'activityToken and printerPrefix required',
+    });
+  }
+
+  liveActivityService.registerActivityToken(printerPrefix, activityToken);
+
+  return res.json({
+    success: true,
+    message: 'Activity token registered',
   });
 });
 
