@@ -7,6 +7,7 @@ import printerRoutes from './routes/printers.js';
 import monitorRoutes from './routes/monitor.js';
 import devicesRoutes from './routes/devices.js';
 import configRoutes from './routes/config.js';
+import historyRoutes from './routes/history.js';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/api/printers', printerRoutes);
 app.use('/api/monitor', monitorRoutes);
 app.use('/api/devices', devicesRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/history', historyRoutes);
 
 // Initialize database
 const db = getDatabase();
@@ -49,6 +51,9 @@ app.get('/api', (req, res) => {
       'POST /api/monitor/start',
       'POST /api/monitor/stop',
       'GET /api/monitor/status',
+      'GET /api/history',
+      'GET /api/history/stats',
+      'GET /api/history/:jobId',
     ],
   });
 });
