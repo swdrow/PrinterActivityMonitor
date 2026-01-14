@@ -1,6 +1,7 @@
 import { getDatabase } from '../config/database.js';
 import { apnsService } from './APNsService.js';
 import { liveActivityService } from './LiveActivityService.js';
+import { printHistoryService } from './PrintHistoryService.js';
 import type { PrinterNotificationPayload } from '../types/apns.js';
 import type { LiveActivityContentState } from '../types/live-activity.js';
 
@@ -64,8 +65,25 @@ export class NotificationTrigger {
 
     console.log(`Sent ${notificationType} notification to ${tokens.length} devices`);
 
-    // Handle Live Activity end for terminal states
+    // Record print job history
+    if (newStatus === 'running' && devices.length > 0) {
+      // Start a new print job
+      const device = devices[0];
+      await printHistoryService.startJob({
+        deviceId: device.id,
+        printerPrefix,
+        filename: filename ?? 'Unknown',
+      });
+    }
+
+    // Handle Live Activity end and complete print job for terminal states
     if (newStatus === 'complete' || newStatus === 'failed' || newStatus === 'cancelled') {
+      // Complete the print job in history
+      await printHistoryService.completeJob(printerPrefix, {
+        status: newStatus === 'complete' ? 'completed' : newStatus as 'failed' | 'cancelled',
+      });
+
+      // End Live Activity
       const finalState: LiveActivityContentState = {
         progress: newStatus === 'complete' ? 100 : 0,
         currentLayer: 0,
