@@ -29,6 +29,7 @@ export class PrinterMonitor extends EventEmitter {
   private config: PrinterMonitorConfig | null = null;
   private stateCache: Map<string, PrinterStateCache> = new Map();
   private isRunning = false;
+  private lastLiveActivityUpdate: Map<string, number> = new Map();
 
   constructor() {
     super();
@@ -200,6 +201,32 @@ export class PrinterMonitor extends EventEmitter {
 
     cache.lastUpdated = new Date();
     this.emit('state_updated', { prefix, state: cache });
+
+    // Send Live Activity update (throttled to every 30 seconds)
+    if (this.shouldSendLiveActivityUpdate(prefix)) {
+      notificationTrigger.handleStateUpdate(prefix, {
+        progress: cache.progress,
+        currentLayer: cache.currentLayer,
+        totalLayers: cache.totalLayers,
+        remainingSeconds: cache.remainingSeconds,
+        status: cache.status,
+        nozzleTemp: cache.nozzleTemp,
+        bedTemp: cache.bedTemp,
+      });
+    }
+  }
+
+  private shouldSendLiveActivityUpdate(prefix: string): boolean {
+    const now = Date.now();
+    const lastUpdate = this.lastLiveActivityUpdate.get(prefix) ?? 0;
+
+    // Throttle to every 30 seconds
+    if (now - lastUpdate < 30000) {
+      return false;
+    }
+
+    this.lastLiveActivityUpdate.set(prefix, now);
+    return true;
   }
 
   private createEmptyCache(prefix: string): PrinterStateCache {

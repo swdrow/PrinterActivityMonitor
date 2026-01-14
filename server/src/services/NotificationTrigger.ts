@@ -1,6 +1,8 @@
 import { getDatabase } from '../config/database.js';
 import { apnsService } from './APNsService.js';
+import { liveActivityService } from './LiveActivityService.js';
 import type { PrinterNotificationPayload } from '../types/apns.js';
+import type { LiveActivityContentState } from '../types/live-activity.js';
 
 interface DeviceWithSettings {
   id: string;
@@ -61,6 +63,20 @@ export class NotificationTrigger {
     await apnsService.sendToMultiple(tokens, payload);
 
     console.log(`Sent ${notificationType} notification to ${tokens.length} devices`);
+
+    // Handle Live Activity end for terminal states
+    if (newStatus === 'complete' || newStatus === 'failed' || newStatus === 'cancelled') {
+      const finalState: LiveActivityContentState = {
+        progress: newStatus === 'complete' ? 100 : 0,
+        currentLayer: 0,
+        totalLayers: 0,
+        remainingSeconds: 0,
+        status: newStatus,
+        nozzleTemp: 0,
+        bedTemp: 0,
+      };
+      await liveActivityService.endActivity(printerPrefix, finalState);
+    }
   }
 
   async handleProgressChange(
@@ -98,6 +114,41 @@ export class NotificationTrigger {
 
   resetProgress(printerPrefix: string): void {
     this.lastProgress.delete(printerPrefix);
+  }
+
+  async handleStateUpdate(
+    printerPrefix: string,
+    state: {
+      progress: number;
+      currentLayer: number;
+      totalLayers: number;
+      remainingSeconds: number;
+      status: string;
+      nozzleTemp: number;
+      bedTemp: number;
+    }
+  ): Promise<void> {
+    // Only send updates while running or paused
+    if (state.status !== 'running' && state.status !== 'paused') {
+      return;
+    }
+
+    // Only send if there's an active Live Activity for this printer
+    if (!liveActivityService.hasActivityToken(printerPrefix)) {
+      return;
+    }
+
+    const liveActivityState: LiveActivityContentState = {
+      progress: state.progress,
+      currentLayer: state.currentLayer,
+      totalLayers: state.totalLayers,
+      remainingSeconds: state.remainingSeconds,
+      status: state.status,
+      nozzleTemp: state.nozzleTemp,
+      bedTemp: state.bedTemp,
+    };
+
+    await liveActivityService.sendUpdate(printerPrefix, liveActivityState);
   }
 
   private getDevicesForPrinter(printerPrefix: string): DeviceWithSettings[] {
