@@ -16,9 +16,9 @@ struct ContentView: View {
                 Label("Dashboard", systemImage: "gauge")
             }
 
-            HistoryView()
+            HistoryView(apiClient: apiClient, settings: settings)
                 .tabItem {
-                    Label("History", systemImage: "clock")
+                    Label("History", systemImage: "clock.arrow.circlepath")
                 }
 
             SettingsView()

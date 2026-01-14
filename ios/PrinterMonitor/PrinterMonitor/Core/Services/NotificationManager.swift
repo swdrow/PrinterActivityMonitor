@@ -72,12 +72,14 @@ final class NotificationManager: NSObject, Sendable {
 
         do {
             try apiClient.configure(serverURL: settings.serverURL)
-            _ = try await apiClient.registerDevice(
+            let response = try await apiClient.registerDevice(
                 apnsToken: token,
                 haUrl: settings.haURL,
                 printerPrefix: prefix,
                 printerName: settings.selectedPrinterName
             )
+            // Save the device ID for history fetching
+            settings.deviceId = response.deviceId
         } catch {
             lastError = error.localizedDescription
         }

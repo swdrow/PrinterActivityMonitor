@@ -15,6 +15,7 @@ final class SettingsStorage: Sendable {
         static let isOnboardingComplete = "isOnboardingComplete"
         static let temperatureUnit = "temperatureUnit"
         static let use24HourTime = "use24HourTime"
+        static let deviceId = "deviceId"
     }
 
     // MARK: - Properties
@@ -55,6 +56,10 @@ final class SettingsStorage: Sendable {
         didSet { defaults.set(use24HourTime, forKey: Keys.use24HourTime) }
     }
 
+    var deviceId: String {
+        didSet { defaults.set(deviceId, forKey: Keys.deviceId) }
+    }
+
     // MARK: - Private
 
     private let defaults: UserDefaults
@@ -73,6 +78,7 @@ final class SettingsStorage: Sendable {
         self.isOnboardingComplete = defaults.bool(forKey: Keys.isOnboardingComplete)
         self.temperatureUnit = TemperatureUnit(rawValue: defaults.string(forKey: Keys.temperatureUnit) ?? "") ?? .celsius
         self.use24HourTime = defaults.bool(forKey: Keys.use24HourTime)
+        self.deviceId = defaults.string(forKey: Keys.deviceId) ?? ""
     }
 
     // MARK: - Methods
@@ -86,6 +92,7 @@ final class SettingsStorage: Sendable {
         isOnboardingComplete = false
         temperatureUnit = .celsius
         use24HourTime = false
+        deviceId = ""
     }
 
     var isConfigured: Bool {

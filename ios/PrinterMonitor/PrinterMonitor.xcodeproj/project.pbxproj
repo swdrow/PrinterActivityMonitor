@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C475DEFE4344C6140F9E79A /* PrinterActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83607515FABC98675AC9CF5D /* PrinterActivityAttributes.swift */; };
+		10BD6B5D174076A355284A55 /* PrintJobDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF2CEF92130F5FF99DD00 /* PrintJobDetailView.swift */; };
 		1316F1A9C83278729AF53A25 /* StatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F6C7E969B15C2E1325ECF8 /* StatCard.swift */; };
 		16F40841C136E71B7FB39ACA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E3C470B732F9590E8A616 /* ContentView.swift */; };
 		1E562DAD75B717D3F9163530 /* PrinterMonitorWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF76E04CEC3F8BEC1B073B /* PrinterMonitorWidgetBundle.swift */; };
@@ -22,6 +23,7 @@
 		4E1E09A8E945391A180358B5 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C85C6879F2CD094651BF705 /* DebugView.swift */; };
 		4EBE8D95F61D8F2ADE04587D /* PrinterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C04889C3366E3E12AB253AB /* PrinterSelectionView.swift */; };
 		5409A55677EA4505986D8291 /* Info 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C91DF4EDA349164BDAF0C40 /* Info 2.plist */; };
+		592F42FE58949AD05782C9AC /* PrintJobRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB8207CA8D0EAE493E6DC5F /* PrintJobRow.swift */; };
 		5CE7305B0E32C6910F7FF3A4 /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7D49C42BAE408F82F2268D /* SettingsStorage.swift */; };
 		66089539A7B39880B1F54373 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4040A36A0EE60C5B65AF1C3D /* DashboardView.swift */; };
 		706742463DF7E058283E5683 /* ProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644BCC5DCF595CF356A04485 /* ProgressRing.swift */; };
@@ -29,8 +31,10 @@
 		90BFB91DFD772B4CAFB59890 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD65E9B1AA9A7D21B784D47D /* Theme.swift */; };
 		A03E321A19519F5A35FB20CD /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB0CC261266302275AF8EC0 /* ActivityManager.swift */; };
 		A06A85B2E787C801FCE3D1D5 /* PrinterMonitorWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 491C29B9F185FB2C4BF2D7F6 /* PrinterMonitorWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ACD6CE95D36C5DFFBDE32C21 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53564EED9C0441818D40026A /* HistoryViewModel.swift */; };
 		B06939478A4CC3F848CDE3D1 /* LiveActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4D467F5E995B149510B70 /* LiveActivityView.swift */; };
 		CDD8F73E9E5B4A39DD8D7EA0 /* PrinterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68727E44583041E29B42E854 /* PrinterViewModel.swift */; };
+		E85E26C3F6230B404F2E4F5A /* PrintJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8076DE875932B15046362F /* PrintJob.swift */; };
 		ECAB803F6A1B4961FD3D84A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B9EFEF6238353FCF6EC2A14 /* Assets.xcassets */; };
 		F07C4B89A092D3C1DBAB878F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA4ACAF0C954071879910C5 /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
@@ -64,17 +68,21 @@
 		173CAED86C51ABFBA6EB7BE6 /* Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info 2.plist"; sourceTree = "<group>"; };
 		1C91DF4EDA349164BDAF0C40 /* Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info 2.plist"; sourceTree = "<group>"; };
 		244CD04E6A1066E74F4A27E6 /* PrinterMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterMonitorApp.swift; sourceTree = "<group>"; };
+		2A8076DE875932B15046362F /* PrintJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintJob.swift; sourceTree = "<group>"; };
 		2C85C6879F2CD094651BF705 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		34F6C7E969B15C2E1325ECF8 /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
+		37EAF2CEF92130F5FF99DD00 /* PrintJobDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintJobDetailView.swift; sourceTree = "<group>"; };
 		3A7D49C42BAE408F82F2268D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		4040A36A0EE60C5B65AF1C3D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		491C29B9F185FB2C4BF2D7F6 /* PrinterMonitorWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = PrinterMonitorWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B4D467F5E995B149510B70 /* LiveActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityView.swift; sourceTree = "<group>"; };
+		53564EED9C0441818D40026A /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		5B9EFEF6238353FCF6EC2A14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62CF9EDDD5D05105E4D478FB /* ConnectionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionSetupView.swift; sourceTree = "<group>"; };
 		644BCC5DCF595CF356A04485 /* ProgressRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRing.swift; sourceTree = "<group>"; };
 		671A1F696BC1F2EF38456061 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		68727E44583041E29B42E854 /* PrinterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterViewModel.swift; sourceTree = "<group>"; };
+		6BB8207CA8D0EAE493E6DC5F /* PrintJobRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintJobRow.swift; sourceTree = "<group>"; };
 		83607515FABC98675AC9CF5D /* PrinterActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterActivityAttributes.swift; sourceTree = "<group>"; };
 		8493E30A4DC21011E046008B /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		8C04889C3366E3E12AB253AB /* PrinterSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterSelectionView.swift; sourceTree = "<group>"; };
@@ -144,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				9D35976D4FC22EA5ACEB428A /* PrinterState.swift */,
+				2A8076DE875932B15046362F /* PrintJob.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -248,6 +257,9 @@
 			isa = PBXGroup;
 			children = (
 				93A5527A3ABFC01A000DE135 /* HistoryView.swift */,
+				53564EED9C0441818D40026A /* HistoryViewModel.swift */,
+				37EAF2CEF92130F5FF99DD00 /* PrintJobDetailView.swift */,
+				6BB8207CA8D0EAE493E6DC5F /* PrintJobRow.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -371,8 +383,12 @@
 				66089539A7B39880B1F54373 /* DashboardView.swift in Sources */,
 				4E1E09A8E945391A180358B5 /* DebugView.swift in Sources */,
 				22B2C3E848B589057B29BF84 /* HistoryView.swift in Sources */,
+				ACD6CE95D36C5DFFBDE32C21 /* HistoryViewModel.swift in Sources */,
 				F07C4B89A092D3C1DBAB878F /* NotificationManager.swift in Sources */,
 				2C766BA8F0FC2F49D1AB8F5F /* NotificationSettingsView.swift in Sources */,
+				E85E26C3F6230B404F2E4F5A /* PrintJob.swift in Sources */,
+				10BD6B5D174076A355284A55 /* PrintJobDetailView.swift in Sources */,
+				592F42FE58949AD05782C9AC /* PrintJobRow.swift in Sources */,
 				2D77DE2F1B43EF68798C8DAB /* PrinterActivityAttributes.swift in Sources */,
 				4A0AC320D3DF21E24E3D76FB /* PrinterMonitorApp.swift in Sources */,
 				4EBE8D95F61D8F2ADE04587D /* PrinterSelectionView.swift in Sources */,
