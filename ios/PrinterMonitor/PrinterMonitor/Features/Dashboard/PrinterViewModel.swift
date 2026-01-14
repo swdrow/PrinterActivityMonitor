@@ -11,6 +11,10 @@ final class PrinterViewModel {
     private(set) var isConnected = false
     private(set) var error: String?
 
+    var entityPrefix: String? {
+        settings.selectedPrinterPrefix
+    }
+
     // MARK: - Dependencies
 
     private let apiClient: APIClient

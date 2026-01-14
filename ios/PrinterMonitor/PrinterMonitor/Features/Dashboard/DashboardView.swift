@@ -2,9 +2,11 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var viewModel: PrinterViewModel
+    var activityManager: ActivityManager?
 
-    init(apiClient: APIClient, settings: SettingsStorage) {
+    init(apiClient: APIClient, settings: SettingsStorage, activityManager: ActivityManager? = nil) {
         _viewModel = State(initialValue: PrinterViewModel(apiClient: apiClient, settings: settings))
+        self.activityManager = activityManager
     }
 
     var body: some View {
@@ -25,6 +27,11 @@ struct DashboardView: View {
                             // Progress ring (only when printing)
                             if state.status.isActive {
                                 progressSection(state: state)
+
+                                // Live Activity button
+                                if let activityManager {
+                                    liveActivityButton(state: state, manager: activityManager)
+                                }
                             }
 
                             // Stats grid
@@ -120,6 +127,47 @@ struct DashboardView: View {
         .padding()
         .frame(maxWidth: .infinity)
         .glassBackground()
+    }
+
+    @ViewBuilder
+    private func liveActivityButton(state: PrinterState, manager: ActivityManager) -> some View {
+        Button {
+            if manager.isActivityActive {
+                manager.endActivity()
+            } else {
+                startLiveActivity(state: state, manager: manager)
+            }
+        } label: {
+            HStack {
+                Image(systemName: manager.isActivityActive ? "stop.circle.fill" : "play.circle.fill")
+                Text(manager.isActivityActive ? "Stop Live Activity" : "Start Live Activity")
+            }
+            .font(Theme.Typography.headlineSmall)
+            .foregroundStyle(manager.isActivityActive ? Theme.Colors.error : Theme.Colors.accent)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .glassBackground()
+        }
+    }
+
+    private func startLiveActivity(state: PrinterState, manager: ActivityManager) {
+        let contentState = PrinterActivityAttributes.ContentState(
+            progress: state.progress,
+            currentLayer: state.currentLayer,
+            totalLayers: state.totalLayers,
+            remainingSeconds: state.remainingSeconds,
+            status: state.status.rawValue,
+            nozzleTemp: state.nozzleTemp,
+            bedTemp: state.bedTemp
+        )
+
+        manager.startActivity(
+            filename: state.filename ?? "Print",
+            printerName: state.printerName,
+            printerModel: state.printerModel.rawValue,
+            entityPrefix: viewModel.entityPrefix ?? "",
+            initialState: contentState
+        )
     }
 
     @ViewBuilder
